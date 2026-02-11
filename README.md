@@ -7,6 +7,8 @@
 
 An implementation of the **Signal Protocol** with an **Agentic AI Test Suite** for system maintenance and diagnostics. This project demonstrates end-to-end encrypted messaging between AI agents and human operators, featuring comprehensive automated testing, real-time monitoring, and AI-powered diagnostics.
 
+![Alice Tests](alicetest.png)
+
 ## 🌟 Key Features
 
 ### Core Capabilities
@@ -18,12 +20,16 @@ An implementation of the **Signal Protocol** with an **Agentic AI Test Suite** f
 - **📋 Test History & Analytics** - SQLite-backed test result storage with export capabilities
 - **🔍 Anomaly Detection** - AI-driven system health monitoring and issue detection
 
+![Alice Demo](alicedemo.png)
+
 ### Security Features
 - **X3DH Key Agreement** - Extended Triple Diffie-Hellman for session establishment
 - **Double Ratchet Algorithm** - Forward secrecy and future secrecy for message encryption
 - **Curve25519 & Kyber** - Post-quantum cryptography with hybrid key exchange
 - **AES-256-CBC + HMAC-SHA256** - Authenticated encryption with integrity verification
 - **Signal Protocol Library** - Official `@signalapp/libsignal-client` implementation
+
+![Alice Chat](alicechat.png)
 
 ## 🏗️ System Architecture
 
@@ -97,6 +103,8 @@ An implementation of the **Signal Protocol** with an **Agentic AI Test Suite** f
 ```
 
 ## 🔐 Signal Protocol Implementation
+
+![Alice Dashboard](alicedashboard.png)
 
 ### Protocol Stack
 
