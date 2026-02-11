@@ -1,0 +1,31 @@
+cd ~/Documents/SignalProtocolSysMaintAgent
+
+  cp .env.example .env
+  nano .env
+
+  Set at least this in .env:
+
+  OPENAI_API_KEY=your_key_here
+  OPENAI_MODEL=gpt-4o-mini
+  MEGA_PASSPHRASE=alpha
+  OPENAI_INPUT_USD_PER_1M=0.15
+  OPENAI_OUTPUT_USD_PER_1M=0.60
+
+  Start the stack:
+
+  docker compose up -d --build relay sysmaint-agent diag-probe sysmaint-web
+  docker compose ps
+
+  Open:
+
+  - Dashboard: http://localhost:3000
+  - Alice chat: http://localhost:3000/chat
+  - 3-window demo: http://localhost:3000/demo
+
+  Optional logs:
+
+  docker compose logs -f relay sysmaint-agent sysmaint-web diag-probe
+
+  Stop when done:
+
+  docker compose down

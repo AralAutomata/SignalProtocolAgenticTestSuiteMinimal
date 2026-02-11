@@ -1,0 +1,21 @@
+{
+  "name": "@mega/sysmaint-web",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --hostname 0.0.0.0 --port 3000",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@mega/signal-core": "file:../../packages/signal-core",
+    "@mega/sysmaint-protocol": "file:../../packages/sysmaint-protocol",
+    "@signalapp/libsignal-client": "^0.87.0",
+    "better-sqlite3": "^11.6.0",
+    "next": "^14.2.25",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "ws": "^8.18.1",
+    "zod": "^3.25.76"
+  }
+}

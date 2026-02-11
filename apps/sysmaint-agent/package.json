@@ -1,0 +1,18 @@
+{
+  "name": "@mega/sysmaint-agent",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "src/index.ts",
+  "dependencies": {
+    "@langchain/core": "^0.3.77",
+    "@langchain/openai": "^0.6.16",
+    "@mega/shared": "file:../../packages/shared",
+    "@mega/signal-core": "file:../../packages/signal-core",
+    "@mega/sysmaint-protocol": "file:../../packages/sysmaint-protocol",
+    "@signalapp/libsignal-client": "^0.87.0",
+    "better-sqlite3": "^11.6.0",
+    "ws": "^8.18.1",
+    "zod": "^3.25.76"
+  }
+}

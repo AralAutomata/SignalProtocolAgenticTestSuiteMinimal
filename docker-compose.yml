@@ -1,0 +1,138 @@
+services:
+  relay:
+    build:
+      context: .
+      dockerfile: infra/docker/relay-server/Dockerfile
+    image: mega-relay:latest
+    environment:
+      RELAY_DB: /data/relay.db
+      RELAY_PORT: 8080
+    ports:
+      - "8080:8080"
+    volumes:
+      - relay-data:/data
+
+  diagnostics:
+    build:
+      context: .
+      dockerfile: infra/docker/diagnostics/Dockerfile
+    image: mega-diagnostics:latest
+    environment:
+      RELAY_URL: http://relay:8080
+      METRICS_INTERVAL_MS: 10000
+    depends_on:
+      - relay
+
+  cli:
+    build:
+      context: .
+      dockerfile: infra/docker/node/Dockerfile
+    image: mega-cli:latest
+    environment:
+      MEGA_PASSPHRASE: ${MEGA_PASSPHRASE:-}
+    volumes:
+      - mega-data:/home/node/.mega
+    stdin_open: true
+    tty: true
+
+  sysmaint-agent:
+    build:
+      context: .
+      dockerfile: infra/docker/sysmaint-agent/Dockerfile
+    image: mega-sysmaint-agent:latest
+    environment:
+      RELAY_URL: http://relay:8080
+      SYSMAINT_ID: sysmaint
+      SYSMAINT_SIGNAL_DB: /home/node/.mega/sysmaint.db
+      SYSMAINT_STATE_DB: /home/node/.mega/sysmaint-state.db
+      MEGA_PASSPHRASE: ${MEGA_PASSPHRASE:-alpha}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENAI_MODEL: ${OPENAI_MODEL:-gpt-4o-mini}
+      OPENAI_INPUT_USD_PER_1M: ${OPENAI_INPUT_USD_PER_1M:-0.15}
+      OPENAI_OUTPUT_USD_PER_1M: ${OPENAI_OUTPUT_USD_PER_1M:-0.60}
+    volumes:
+      - sysmaint-data:/home/node/.mega
+    depends_on:
+      - relay
+
+  diag-probe:
+    build:
+      context: .
+      dockerfile: infra/docker/diag-probe/Dockerfile
+    image: mega-diag-probe:latest
+    environment:
+      RELAY_URL: http://relay:8080
+      DIAG_PROBE_ID: diagprobe
+      SYSMAINT_ID: sysmaint
+      DIAG_PROBE_SIGNAL_DB: /home/node/.mega/diagprobe.db
+      SYSMAINT_PROBE_INTERVAL_MS: 10000
+      MEGA_PASSPHRASE: ${MEGA_PASSPHRASE:-alpha}
+    volumes:
+      - sysmaint-data:/home/node/.mega
+    depends_on:
+      - relay
+      - sysmaint-agent
+
+  sysmaint-web:
+    build:
+      context: .
+      dockerfile: infra/docker/sysmaint-web/Dockerfile
+    image: mega-sysmaint-web:latest
+    environment:
+      RELAY_URL: http://relay:8080
+      ALICE_ID: alice
+      SYSMAINT_ID: sysmaint
+      SYSMAINT_WEB_SIGNAL_DB: /home/node/.mega/alice-web.db
+      SYSMAINT_STATE_DB: /home/node/.mega/sysmaint-state.db
+      SYSMAINT_CHAT_TIMEOUT_MS: 25000
+      MEGA_PASSPHRASE: ${MEGA_PASSPHRASE:-alpha}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+    volumes:
+      - sysmaint-data:/home/node/.mega
+    depends_on:
+      - relay
+      - sysmaint-agent
+    ports:
+      - "3000:3000"
+
+  bun:
+    build:
+      context: .
+      dockerfile: infra/docker/bun/Dockerfile
+    image: mega-bun:latest
+    working_dir: /app
+    volumes:
+      - .:/app
+    stdin_open: true
+    tty: true
+
+  deno:
+    build:
+      context: .
+      dockerfile: infra/docker/deno/Dockerfile
+    image: mega-deno:latest
+    working_dir: /app
+    volumes:
+      - .:/app
+    stdin_open: true
+    tty: true
+
+  deno-test-overview:
+    build:
+      context: ./infra/deno/test-overview
+      dockerfile: Dockerfile
+    image: mega-deno-test-overview:latest
+    environment:
+      PORT: 8000
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+    ports:
+      - "8000:8000"
+    depends_on:
+      - sysmaint-web
+    networks:
+      - default
+
+volumes:
+  mega-data:
+  relay-data:
+  sysmaint-data:

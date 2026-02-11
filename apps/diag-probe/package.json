@@ -1,0 +1,13 @@
+{
+  "name": "@mega/diag-probe",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "src/index.ts",
+  "dependencies": {
+    "@mega/signal-core": "file:../../packages/signal-core",
+    "@mega/sysmaint-protocol": "file:../../packages/sysmaint-protocol",
+    "@signalapp/libsignal-client": "^0.87.0",
+    "zod": "^3.25.76"
+  }
+}

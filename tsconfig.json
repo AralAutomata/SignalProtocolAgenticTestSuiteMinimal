@@ -1,0 +1,9 @@
+{
+  "files": [],
+  "references": [
+    { "path": "packages/shared" },
+    { "path": "packages/signal-core" },
+    { "path": "packages/relay-server" },
+    { "path": "apps/cli" }
+  ]
+}

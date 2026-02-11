@@ -1,0 +1,37 @@
+{
+  "name": "mega-project",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "clean": "tsc -b --clean",
+    "cli": "node apps/cli/dist/index.js",
+    "dev": "tsx apps/cli/src/index.ts",
+    "relay": "node packages/relay-server/dist/index.js",
+    "dev:relay": "tsx packages/relay-server/src/index.ts",
+    "sysmaint:agent": "tsx apps/sysmaint-agent/src/index.ts",
+    "sysmaint:probe": "tsx apps/diag-probe/src/index.ts",
+    "sysmaint:web:dev": "npm run dev --workspace @mega/sysmaint-web",
+    "sysmaint:web:build": "npm run build --workspace @mega/sysmaint-web",
+    "sysmaint:web:start": "npm run start --workspace @mega/sysmaint-web",
+    "test": "tsx --test packages/**/test/**/*.test.ts",
+    "test:e2e:docker": "bash scripts/e2e-docker.sh",
+    "test:e2e:relay": "bash scripts/e2e-relay.sh",
+    "test:web": "echo 'Open http://localhost:3000/test to run tests in the browser'"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.12",
+    "@types/node": "^22.10.2",
+    "@types/react": "^19.2.13",
+    "@types/react-dom": "^19.2.3",
+    "@types/ws": "^8.18.1",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3"
+  }
+}
