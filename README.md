@@ -7,6 +7,8 @@
 
 An implementation of the **Signal Protocol** with an **Agentic AI Test Suite** for system maintenance and diagnostics. This project demonstrates end-to-end encrypted messaging between AI agents and human operators, featuring comprehensive automated testing, real-time monitoring, and AI-powered diagnostics.
 
+## Please Read PROJECT_EXPLANATION_OVERVIEW.md
+
 ![Alice Tests](alicetest.png)
 
 ## 🌟 Key Features
